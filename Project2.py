@@ -813,6 +813,7 @@ def findmaxindex(mylist):
     for i in range(len(mylist)):
         if (mylist[i]>max):
             maxindex=i
+            max=mylist[i]
     return maxindex
 
 
@@ -910,6 +911,7 @@ def naivebayes(v,n,delta,train,test):
             scores[5] = calculatescoreisalphatrigram(copystring[i], delta, results[5], results[17], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
 
         indexm=findmaxindex(scores)
+        print(indexm)
         if(indexm==0):
             label='eu'
         elif(indexm==1):
@@ -945,4 +947,4 @@ def naivebayes(v,n,delta,train,test):
 
 
 
-naivebayes(2,3,0.5,"training-tweets.txt","test-tweets-given.txt")
+naivebayes(3,2,0.5,"training-tweets.txt","training-tweets.txt")
