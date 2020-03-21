@@ -174,6 +174,7 @@ def trainv1(train,n):
         if (i < (len(tweets) - 1)):
             tweets[i] = tweets[i][:-1]
         copytweets[i] = tweets[i].split()
+
         index = tweets[i].index(copytweets[i][3])
         copystring[i] = tweets[i][index:]
         if(n==1):
@@ -816,6 +817,28 @@ def naivebayes(v,n,delta,train,test):
     f1 = open(nameoftracefile, "w+", encoding="utf8")
     numcorrectclass=0
     results=[]
+    correctbasque=0
+    correctcatalan=0
+    correctgalician=0
+    correctspanish=0
+    correctenglish=0
+    correctportoguse=0
+
+    falsepositivebasque=0
+    falsepositivecatalan=0
+    falsepositivegalician=0
+    falsepositivespanish=0
+    falsepositiveenglish=0
+    falsepositiveportoguse=0
+
+
+    falsenegativebasque=0
+    falsenegativecatalan=0
+    falsenegativegalician=0
+    falsenegativespanish=0
+    falsenegativeenglish=0
+    falsenegativeportoguse=0
+
     indexm=0
     label=''
     label2=''
@@ -827,6 +850,7 @@ def naivebayes(v,n,delta,train,test):
     elif(v==3):
         results=trainv3(train,n)
     tweets=[]
+
     with open(test,encoding="utf8") as f:
         for line in f:
             tweets.append(line)
@@ -836,7 +860,6 @@ def naivebayes(v,n,delta,train,test):
         if (i < (len(tweets) - 1)):
             tweets[i] = tweets[i][:-1]
         copytweets[i] = tweets[i].split()
-
         index = tweets[i].index(copytweets[i][3])
 
         copystring[i] = tweets[i][index:]
@@ -908,8 +931,6 @@ def naivebayes(v,n,delta,train,test):
         for j in range(6):
             if(scores[j]>scores[indexm]):
                 indexm=j
-
-
         if(indexm==0):
             label='eu'
         elif(indexm==1):
@@ -925,24 +946,223 @@ def naivebayes(v,n,delta,train,test):
         if(label==copytweets[i][2]):
             label2="correct"
             numcorrectclass+=1
+            if(label=='eu'):
+                correctbasque+=1
+            elif(label=='ca'):
+                correctcatalan+=1
+            elif(label=='gl'):
+                correctgalician+=1
+            elif(label=='es'):
+                correctspanish+=1
+            elif(label=='en'):
+                correctenglish+=1
+            elif(label=='pt'):
+                correctportoguse+=1
         else:
             label2="wrong"
+            if(label=='eu'):
+                falsepositivebasque+=1
+            elif(label=='ca'):
+                falsepositivecatalan+=1
+            elif(label=='gl'):
+                falsepositivegalician+=1
+            elif(label=='es'):
+                falsepositivespanish+=1
+            elif(label=='en'):
+                falsepositiveenglish+=1
+            elif(label=='pt'):
+                falsepositiveportoguse+=1
+
+            if(copytweets[i][2]=='eu'):
+                falsenegativebasque+=1
+            elif(copytweets[i][2]=='ca'):
+                falsenegativecatalan+=1
+            elif(copytweets[i][2]=='gl'):
+                falsenegativegalician+=1
+
+            elif(copytweets[i][2]=='es'):
+                falsenegativespanish+=1
+            elif(copytweets[i][2]=='en'):
+                falsenegativeenglish+=1
+            elif(copytweets[i][2]=='pt'):
+                falsenegativeportoguse+=1
 
 
         f1.write(copytweets[i][0]+"  "+label+"  "+"{:.2e}".format((scores[indexm]))+"  "+copytweets[i][2]+"  "+label2+"\n")
     f1.close()
     accuracy=(numcorrectclass/len(tweets))
-    print(accuracy)
+
+    print(correctbasque)
+    print(falsepositivebasque)
+    print(falsenegativebasque)
+    print(correctcatalan)
+    print(falsepositivecatalan)
+    print(falsenegativecatalan)
+    print(correctgalician)
+    print(falsepositivegalician)
+    print(falsenegativegalician)
+    print(correctspanish)
+    print(falsepositivespanish)
+    print(falsenegativespanish)
+    print(correctenglish)
+    print(falsepositiveenglish)
+    print(falsenegativeenglish)
+    print(correctportoguse)
+    print(falsepositiveportoguse)
+    print(falsenegativeportoguse)
+
+    if((correctbasque+falsepositivebasque) > 0):
+        precisionbasque=correctbasque/(correctbasque+falsepositivebasque)
+    else:
+        precisionbasque="undefined"
+
+    if((correctcatalan+falsepositivecatalan)>0):
+        precisioncatalan=correctcatalan/(correctcatalan+falsepositivecatalan)
+    else:
+        precisioncatalan="undefined"
+
+    if((correctgalician+falsepositivegalician)>0):
+        precisiongalician=correctgalician/(correctgalician+falsepositivegalician)
+    else:
+        precisiongalician="undefined"
+
+    if ((correctspanish+falsepositivespanish)>0):
+        precisionspanish=correctspanish/(correctspanish+falsepositivespanish)
+    else:
+        precisionspanish="undefined"
+
+    if(correctenglish+falsepositiveenglish>0):
+        precisionenglish=correctenglish/(correctenglish+falsepositiveenglish)
+    else:
+        precisionenglish="undefined"
+
+    if((correctportoguse+falsepositiveportoguse)>0):
+        precisionportoguse=correctportoguse/(correctportoguse+falsepositiveportoguse)
+    else:
+        precisionportoguse="undefined"
+
+
+
+
+    if((correctbasque+falsenegativebasque)>0):
+        recallbasque = correctbasque/(correctbasque+falsenegativebasque)
+    else:
+        recallbasque="undefined"
+    if((correctcatalan+falsenegativecatalan)>0):
+        recallcatalan = correctcatalan/(correctcatalan+falsenegativecatalan)
+    else:
+        recallcatalan="undefined"
+    if((correctgalician+falsenegativegalician)>0):
+        recallgalician = correctgalician/(correctgalician+falsenegativegalician)
+    else:
+        recallgalician="undefined"
+    if((correctspanish+falsenegativespanish)>0):
+        recallspanish = correctspanish/(correctspanish+falsenegativespanish)
+    else:
+        recallspanish="undefined"
+    if((correctenglish+falsenegativeenglish)>0):
+        recallenglish = correctenglish/(correctenglish+falsenegativeenglish)
+    else:
+        recallenglish="undefined"
+    if((correctportoguse+falsenegativeportoguse)>0):
+        recallportoguse = correctportoguse/(correctportoguse+falsenegativeportoguse)
+    else:
+        recallportoguse="undefined"
+
+
+
+    testbasque=correctbasque+falsenegativebasque
+    testcatalan=correctcatalan+falsenegativecatalan
+    testgalician=correctgalician+falsenegativegalician
+    testspanish=correctspanish+falsenegativespanish
+    testenglish=correctenglish+falsenegativeenglish
+    testportoguse=correctportoguse+falsenegativeportoguse
+    totaltest=testbasque+testcatalan+testgalician+testspanish+testenglish+testportoguse
+
+    macrof1=0
+    waveragef1=0
+    numdefined=0
+
+    if(recallbasque!= "undefined" and precisionbasque!="undefined"):
+        if((recallbasque+precisionbasque)>0):
+            f1basque=(2*precisionbasque*recallbasque)/(recallbasque+precisionbasque)
+            macrof1+=f1basque
+            waveragef1+=testbasque*f1basque
+            numdefined+=1
+        else:
+            f1basque="undefined"
+    else:
+        f1basque = "undefined"
+
+    if(recallcatalan!="undefined" and precisioncatalan!="undefined"):
+        if((recallcatalan+precisioncatalan)>0):
+            f1catalan=(2*precisioncatalan*recallcatalan)/(recallcatalan+precisioncatalan)
+            macrof1+=f1catalan
+            waveragef1+=testcatalan*f1catalan
+            numdefined+=1
+        else:
+            f1catalan="undefined"
+    else:
+        f1catalan = "undefined"
+
+    if(recallgalician!="undefined" and precisiongalician!="undefined"):
+        if((recallgalician+precisiongalician)>0):
+            f1galician=(2*precisiongalician*recallgalician)/(recallgalician+precisiongalician)
+            macrof1+=f1galician
+            waveragef1+=testgalician*f1galician
+            numdefined+=1
+        else:
+            f1galician="undefined"
+    else:
+        f1galician = "undefined"
+
+    if(recallspanish!="undefined" and precisionspanish!="undefined"):
+        if((recallspanish+precisionspanish)>0):
+            f1spanish=(2*precisionspanish*recallspanish)/(recallspanish+precisionspanish)
+            macrof1+=f1spanish
+            waveragef1+=testspanish*f1spanish
+            numdefined+=1
+        else:
+            f1spanish="undefined"
+    else:
+        f1spanish = "undefined"
+
+    if(recallenglish!="undefined" and precisionenglish!="undefined"):
+        if((recallenglish+precisionenglish)>0):
+            f1english=(2*precisionenglish*recallenglish)/(recallenglish+precisionenglish)
+            macrof1+=f1english
+            waveragef1+=testenglish*f1english
+            numdefined+=1
+        else:
+            f1english="undefined"
+    else:
+        f1english = "undefined"
+
+    if(recallportoguse!="undefined" and precisionportoguse!="undefined"):
+        if((recallportoguse+precisionportoguse)>0):
+            f1portoguse=(2*precisionportoguse*recallportoguse)/(recallportoguse+precisionportoguse)
+            macrof1+=f1portoguse
+            waveragef1+=testportoguse*f1portoguse
+            numdefined+=1
+        else:
+            f1portoguse="undefined"
+    else:
+        f1portoguse = "undefined"
+
+    macrof1=  (macrof1) / numdefined
+    waveragef1=  (waveragef1) / totaltest
+
+
     nameoffile2="eval_"+str(v)+"_"+str(n)+"_"+str(delta)+".txt"
     f2 = open(nameoffile2, "w+", encoding="utf8")
+    f2.write(str(accuracy)+"\n")
+    f2.write(str(precisionbasque)+"  "+str(precisioncatalan)+"  "+str(precisiongalician)+"  "+str(precisionspanish)+"  "+str(precisionenglish)+"  "+str(precisionportoguse)+"\n")
+    f2.write(str(recallbasque) + "  " + str(recallcatalan) + "  " + str(recallgalician) + "  " + str(recallspanish) + "  " + str(recallenglish) + "  " + str(recallportoguse) + "\n")
+    f2.write(str(f1basque) + "  " + str(f1catalan) + "  " + str(f1galician) + "  " + str(f1spanish) + "  " + str(f1english) + "  " + str(f1portoguse) + "\n")
+    f2.write(str(macrof1)+"  "+str(waveragef1))
 
 
 
 
 
-
-
-
-
-
-naivebayes(1,2,0.5,"training-tweets.txt","training-tweets.txt")
+naivebayes(3,2,1,"training-tweets.txt","test-tweets-given.txt")
