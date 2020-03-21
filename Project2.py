@@ -686,13 +686,7 @@ def countkeys(mydict):
 
 
 
-def calculatescores(mystring,smoothing,classsize,vocabularysize,totaldocs,traininglist):
-    score=0
-    for i in range(len(mystring)):
-        if(ord(mystring[i])>=97 and ord(mystring[i])<=122):
-            score+=math.log((traininglist[ord(mystring[i])-97]+smoothing)/(totalcountlist(traininglist)+vocabularysize*smoothing),10)
-    score+=math.log(classsize/totaldocs,10)
-    return score
+
 
 def calculatescorebigram(mystring,smoothing,classsize,vocabularysize,totaldocs,traininglist):
     score=0
@@ -807,15 +801,15 @@ def calculatescoreisalphatrigram(mystring, smoothing, classsize, vocabularysize,
     score += math.log(classsize / totaldocs, 10)
     return score
 
-def findmaxindex(mylist):
-    maxindex=0
-    max=mylist[0]
-    for i in range(len(mylist)):
-        if (mylist[i]>max):
-            maxindex=i
-            max=mylist[i]
-    return maxindex
 
+
+def calculatescores(mystring,smoothing,classsize,vocabularysize,totaldocs,traininglist):
+    score=0
+    for i in range(len(mystring)):
+        if(ord(mystring[i])>=97 and ord(mystring[i])<=122):
+            score+=math.log((traininglist[ord(mystring[i])-97]+smoothing)/(totalcountlist(traininglist)+vocabularysize*smoothing),10)
+    score+=math.log(classsize/totaldocs,10)
+    return score
 
 def naivebayes(v,n,delta,train,test):
     nameoftracefile="trace_"+str(v)+"_"+str(n)+"_"+str(delta)+".txt"
@@ -847,11 +841,11 @@ def naivebayes(v,n,delta,train,test):
 
         copystring[i] = tweets[i][index:]
         if(v==1 and n==1):
-            scores[0] = calculatescores(copystring[i],delta,results[0],26,(results[0]+results[1]+results[2]+results[3]+results[4]+results[5]),results[6])
+            scores[0] = calculatescores(copystring[i], delta, results[0], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[6])
             scores[1] = calculatescores(copystring[i], delta, results[1], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7])
             scores[2] = calculatescores(copystring[i], delta, results[2], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8])
-            scores[3] = calculatescores(copystring[i],delta,results[3],26,(results[0]+results[1]+results[2]+results[3]+results[4]+results[5]),results[9])
-            scores[4] = calculatescores(copystring[i], delta, results[4], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
+            scores[3] = calculatescores(copystring[i], delta, results[3], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[9])
+            scores[4] = calculatescores(copystring[i], delta, results[3], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
             scores[5] = calculatescores(copystring[i], delta, results[5], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
         elif(v==1 and n==2):
             scores[0] = calculatescorebigram(copystring[i], delta, results[0], 26, (results[0]+results[1]+results[2]+ results[3]+ results[4]+ results[5]), results[6])
@@ -896,22 +890,26 @@ def naivebayes(v,n,delta,train,test):
             scores[4] = calculatescoreisalpha(copystring[i], delta, results[4], results[16], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
             scores[5] = calculatescoreisalpha(copystring[i], delta, results[5], results[17], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
         elif(v==3 and n==2):
-            scores[0] = calculatescoreisalphabigram(copystring[i], delta, results[0], results[12], (results[0]+  results[1]+  results[2]+  results[3]+  results[4]+  results[5]), results[6])
+            scores[0] = calculatescoreisalphabigram(copystring[i], delta, results[0], results[12], (results[0] +  results[1] +  results[2] +  results[3]+  results[4] +  results[5]), results[6])
             scores[1] = calculatescoreisalphabigram(copystring[i], delta, results[1], results[13], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7])
             scores[2] = calculatescoreisalphabigram(copystring[i], delta, results[2], results[14], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8])
-            scores[3] = calculatescoreisalphabigram(copystring[i], delta, results[3], results[15], (results[0]+  results[1]+  results[2]+  results[3]+  results[4]+  results[5]), results[9])
+            scores[3] = calculatescoreisalphabigram(copystring[i], delta, results[3], results[15], (results[0] +  results[1] +  results[2] +  results[3]+  results[4] +  results[5]), results[9])
             scores[4] = calculatescoreisalphabigram(copystring[i], delta, results[4], results[16], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
             scores[5] = calculatescoreisalphabigram(copystring[i], delta, results[5], results[17], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
         elif(v==3 and n==3):
-            scores[0] = calculatescoreisalphatrigram(copystring[i], delta, results[0], results[12], (results[0]+  results[1]+  results[2]+  results[3]+  results[4]+  results[5]), results[6])
+            scores[0] = calculatescoreisalphatrigram(copystring[i], delta, results[0], results[12], (results[0] +  results[1]+  results[2] +  results[3]+  results[4] +  results[5]), results[6])
             scores[1] = calculatescoreisalphatrigram(copystring[i], delta, results[1], results[13], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7])
             scores[2] = calculatescoreisalphatrigram(copystring[i], delta, results[2], results[14], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8])
-            scores[3] = calculatescoreisalphatrigram(copystring[i], delta, results[3], results[15], (results[0]+  results[1]+  results[2]+  results[3]+  results[4]+  results[5]), results[9])
+            scores[3] = calculatescoreisalphatrigram(copystring[i], delta, results[3], results[15], (results[0] +  results[1]+  results[2] +  results[3]+  results[4] +  results[5]), results[9])
             scores[4] = calculatescoreisalphatrigram(copystring[i], delta, results[4], results[16], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
             scores[5] = calculatescoreisalphatrigram(copystring[i], delta, results[5], results[17], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
 
-        indexm=findmaxindex(scores)
-        print(indexm)
+        indexm=0
+        for j in range(6):
+            if(scores[j]>scores[indexm]):
+                indexm=j
+
+
         if(indexm==0):
             label='eu'
         elif(indexm==1):
@@ -947,4 +945,4 @@ def naivebayes(v,n,delta,train,test):
 
 
 
-naivebayes(3,2,0.5,"training-tweets.txt","training-tweets.txt")
+naivebayes(1,2,0.5,"training-tweets.txt","training-tweets.txt")
