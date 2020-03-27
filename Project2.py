@@ -676,7 +676,10 @@ def calculatescorebigram(mystring,smoothing,classsize,vocabularysize,totaldocs,t
     score=0
     for i in range(len(mystring)-1):
         if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and (ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122)):
-            score+=math.log(((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]+smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]+smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize) >0):
+                score+=math.log(((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]+smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
     score+=math.log((classsize/totaldocs),10)
     return score
 
@@ -685,7 +688,12 @@ def calculatescoretrigram(mystring, smoothing, classsize, vocabularysize, totald
     score = 0
     for i in range(len(mystring) - 2):
         if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            score+=math.log(((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97][ord(mystring[i+2])-97]+smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97][ord(mystring[i+2])-97]+smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)>0 ):
+
+
+                score+=math.log(((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97][ord(mystring[i+2])-97]+smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
     score+=math.log((classsize/totaldocs),10)
     return score
 
@@ -693,9 +701,15 @@ def calculatescorescase(mystring,smoothing,classsize,vocabularysize,totaldocs,tr
     score=0
     for i in range(len(mystring)):
         if((ord(mystring[i])>=97 and ord(mystring[i])<=122)):
-            score+=math.log(((traininglist[ord(mystring[i])-97]+smoothing)/(totalcountlist(traininglist)+vocabularysize*smoothing)),10)
+            if((traininglist[ord(mystring[i])-97]+smoothing)>0 and (totalcountlist(traininglist)+vocabularysize*smoothing)>0):
+                score+=math.log(((traininglist[ord(mystring[i])-97]+smoothing)/(totalcountlist(traininglist)+vocabularysize*smoothing)),10)
+            else:
+                score=(-99999999)
         elif ((ord(mystring[i])>=65 and ord(mystring[i])<=90)):
-            score += math.log(((traininglist[ord(mystring[i]) - 39]+smoothing) / (totalcountlist(traininglist)+vocabularysize * smoothing)), 10)
+            if((traininglist[ord(mystring[i]) - 39]+smoothing) >0 and (totalcountlist(traininglist)+vocabularysize * smoothing)>0 ):
+                score += math.log(((traininglist[ord(mystring[i]) - 39]+smoothing) / (totalcountlist(traininglist)+vocabularysize * smoothing)), 10)
+            else:
+                score=(-99999999)
 
     score+=math.log((classsize/totaldocs),10)
     return score
@@ -704,13 +718,25 @@ def calculatescorebigramcase(mystring,smoothing,classsize,vocabularysize,totaldo
     score=0
     for i in range(len(mystring)-1):
         if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and (ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122)):
-            score+=math.log(((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]+smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]+smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)>0 ):
+                score+=math.log(((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]+smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
         if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90):
-            score+=math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39]))+smoothing*vocabularysize)),10)
+            if( (traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-39]))+smoothing*vocabularysize)>0 ):
+                score+=math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
         if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90):
-            score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39] +smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39] +smoothing)>0 and  ((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)>0):
+                score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39] +smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
         if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 97 and ord(mystring[i + 1]) <= 122):
-            score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97] +smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97] +smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-39]))+smoothing*vocabularysize)>0 ):
+                score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97] +smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
     score+=math.log((classsize/totaldocs),10)
     return score
 
@@ -718,21 +744,46 @@ def calculatescoretrigramcase(mystring, smoothing, classsize, vocabularysize, to
     score = 0
     for i in range(len(mystring) - 2):
         if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 97] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 97] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)>0):
+                score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 97] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
+
         if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i + 1]) >= 97 and ord(mystring[i + 1]) <= 122 and ord(mystring[i+2]) >= 65 and ord(mystring[i+2]) <= 90):
-            score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 39] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)>0):
+                score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
         if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 97] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-39]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 97] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-39]))+smoothing*vocabularysize)>0 ):
+                score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 97] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-39]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
         if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90 and ord(mystring[i + 2]) >= 65 and ord(mystring[i + 2]) <= 90):
-            score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-39]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 39] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-39]))+smoothing*vocabularysize) >0):
+                score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-39]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
         if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 97] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 97] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-97]))+smoothing*vocabularysize) >0):
+                score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 97] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
         if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 97 and ord(mystring[i + 1]) <= 122 and ord(mystring[i+2]) >= 65 and ord(mystring[i+2]) <= 90):
-            score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 39] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-97]))+smoothing*vocabularysize)>0):
+                score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
         if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 97] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-39]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 97] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-39]))+smoothing*vocabularysize)>0):
+                score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 97] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-39]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
         if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90 and ord(mystring[i + 2]) >= 65 and ord(mystring[i + 2]) <= 90):
-            score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-39]))+smoothing*vocabularysize)),10)
+            if((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 39] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-39]))+smoothing*vocabularysize)>0):
+                score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-39]))+smoothing*vocabularysize)),10)
+            else:
+                score=(-99999999)
     score+=math.log((classsize/totaldocs),10)
     return score
 
@@ -740,10 +791,16 @@ def calculatescoreisalpha(mystring, smoothing, classsize, vocabularysize, totald
     score = 0
     for i in range(len(mystring)):
         if(mystring[i].isalpha() and (mystring[i] in traininglist)):
-            score += math.log(((float(traininglist[mystring[i]]) + smoothing) / (countkeys(traininglist) + (vocabularysize+1) * smoothing)), 10)
+            if((float(traininglist[mystring[i]]) + smoothing)>0 and (countkeys(traininglist) + (vocabularysize+1) * smoothing)>0):
+                score += math.log(((float(traininglist[mystring[i]]) + smoothing) / (countkeys(traininglist) + (vocabularysize+1) * smoothing)), 10)
+            else:
+                scre=(-99999999)
 
         elif(mystring[i].isalpha() and not(mystring[i] in traininglist)):
-            score+=math.log(((smoothing) / (countkeys(traininglist) + (vocabularysize+1) * smoothing)), 10)
+            if((smoothing)>0 and (countkeys(traininglist) + (vocabularysize+1) * smoothing)>0):
+                score+=math.log(((smoothing) / (countkeys(traininglist) + (vocabularysize+1) * smoothing)), 10)
+            else:
+                score=(-99999999)
 
 
     score+=math.log((classsize/totaldocs),10)
@@ -771,11 +828,20 @@ def calculatescoreisalphabigram(mystring, smoothing, classsize, vocabularysize, 
     for i in range(len(mystring)-1):
         bigram = mystring[i] + mystring[i + 1]
         if ((mystring[i].isalpha())and (mystring[i+1].isalpha())and (bigram in traininglist)):
-            score += math.log((float(traininglist[bigram]) + smoothing) / (countlefttotalbigram(traininglist,mystring[i]) + (vocabularysize+1) * smoothing),10)
+            if((float(traininglist[bigram]) + smoothing) >0 and (countlefttotalbigram(traininglist,mystring[i]) + (vocabularysize+1) * smoothing)>0 ):
+                score += math.log((float(traininglist[bigram]) + smoothing) / (countlefttotalbigram(traininglist,mystring[i]) + (vocabularysize+1) * smoothing),10)
+            else:
+                score=(-99999999)
         elif  ((mystring[i].isalpha()) and (mystring[i+1].isalpha()) and (not (bigram in traininglist)) and (mystring[i] in myfirst)):
-            score += math.log((smoothing) / (countlefttotalbigram(traininglist, mystring[i]) + (vocabularysize + 1) * smoothing), 10)
+            if((smoothing)>0 and (countlefttotalbigram(traininglist, mystring[i]) + (vocabularysize + 1) * smoothing)>0 ):
+                score += math.log((smoothing) / (countlefttotalbigram(traininglist, mystring[i]) + (vocabularysize + 1) * smoothing), 10)
+            else:
+                score=(-99999999)
         elif  ((mystring[i].isalpha() )  and  (mystring[i+1].isalpha()) and   (not (mystring[i] in myfirst))):
-            score += math.log( (smoothing) / ((vocabularysize + 1) * smoothing), 10)
+            if((smoothing)>0 and ((vocabularysize + 1) * smoothing)>0):
+                score += math.log( (smoothing) / ((vocabularysize + 1) * smoothing), 10)
+            else:
+                score=(-99999999)
     score += math.log(classsize / totaldocs, 10)
     return score
 
@@ -786,14 +852,22 @@ def calculatescoreisalphatrigram(mystring, smoothing, classsize, vocabularysize,
         trigram=mystring[i] + mystring[i + 1]+mystring[i+2]
         bigram=mystring[i] + mystring[i + 1]
         if ((mystring[i].isalpha()) and (mystring[i + 1].isalpha()) and (mystring[i + 2].isalpha() ) and (trigram in traininglist)):
+            if((float(traininglist[trigram]) + smoothing) >0 and (counttrigramtotal12(traininglist,mystring[i],mystring[i+1]) + (vocabularysize + 1) * smoothing)>0):
 
-            score += math.log(((float(traininglist[trigram]) + smoothing) / (counttrigramtotal12(traininglist,mystring[i],mystring[i+1]) + (vocabularysize + 1) * smoothing)), 10)
-
+                score += math.log(((float(traininglist[trigram]) + smoothing) / (counttrigramtotal12(traininglist,mystring[i],mystring[i+1]) + (vocabularysize + 1) * smoothing)), 10)
+            else:
+                score=(-99999999)
         elif ((mystring[i].isalpha() )and  (mystring[i + 1].isalpha()) and  (mystring[i + 2].isalpha()) and  (not (trigram in traininglist)) and (bigram in bigramlist) ):
-            score += math.log(((smoothing) / (counttrigramtotal12(traininglist, mystring[i], mystring[i + 1]) + (vocabularysize + 1) * smoothing)), 10)
-
+            if((smoothing)>0 and (counttrigramtotal12(traininglist, mystring[i], mystring[i + 1]) + (vocabularysize + 1) * smoothing)>0 ):
+                score += math.log(((smoothing) / (counttrigramtotal12(traininglist, mystring[i], mystring[i + 1]) + (vocabularysize + 1) * smoothing)), 10)
+            else:
+                score=(-99999999)
         elif ((mystring[i].isalpha()) and  (mystring[i + 1].isalpha()) and  (mystring[i + 2].isalpha())  and (not (bigram in bigramlist) )):
-            score += math.log((smoothing) / ( (vocabularysize + 1) * smoothing), 10)
+            if((smoothing)>0 and ( (vocabularysize + 1) * smoothing)>0):
+
+                score += math.log((smoothing) / ( (vocabularysize + 1) * smoothing), 10)
+            else:
+                score=(-99999999)
 
     score += math.log((classsize / totaldocs), 10)
     return score
@@ -804,7 +878,10 @@ def calculatescores(mystring,smoothing,classsize,vocabularysize,totaldocs,traini
     score=0
     for i in range(len(mystring)):
         if(ord(mystring[i])>=97 and ord(mystring[i])<=122):
-            score+=math.log((traininglist[ord(mystring[i])-97]+smoothing)/(totalcountlist(traininglist)+vocabularysize*smoothing),10)
+            if((traininglist[ord(mystring[i])-97]+smoothing)>0 and (totalcountlist(traininglist)+vocabularysize*smoothing)>0):
+                score+=math.log((traininglist[ord(mystring[i])-97]+smoothing)/(totalcountlist(traininglist)+vocabularysize*smoothing),10)
+            else:
+                score=(-99999999)
     score+=math.log(classsize/totaldocs,10)
     return score
 
@@ -929,6 +1006,7 @@ def naivebayes(v,n,delta,train,test):
         for j in range(6):
             if(scores[j]>scores[indexm]):
                 indexm=j
+
 
         if(indexm==0):
             label='eu'
@@ -1143,8 +1221,5 @@ def naivebayes(v,n,delta,train,test):
     f2.write(str(macrof1)+"  "+str(waveragef1))
 
 
-
-
-
-naivebayes(3,3,1,"training-tweets.txt","test-tweets-given.txt")
+naivebayes(3,3,0,"training-tweets.txt","test-tweets-given.txt")
 print("completed")
