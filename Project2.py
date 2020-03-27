@@ -1146,4 +1146,5 @@ def naivebayes(v,n,delta,train,test):
 
 
 
-naivebayes(3,2,0.6,"training-tweets.txt","test-tweets-given.txt")
+naivebayes(3,3,1,"training-tweets.txt","test-tweets-given.txt")
+print("completed")
