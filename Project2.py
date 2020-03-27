@@ -1,6 +1,6 @@
 import numpy as np
 import math
-
+import matplotlib.pyplot as plt
 #a method to sum all elements of a list
 def totalcountlist(mylist):
     sum=0
@@ -1221,5 +1221,27 @@ def naivebayes(v,n,delta,train,test):
     f2.write(str(macrof1)+"  "+str(waveragef1))
 
 
-naivebayes(3,3,0,"training-tweets.txt","test-tweets-given.txt")
-print("completed")
+naivebayes(3,2,0.2,"training-tweets.txt","test-tweets-given.txt")
+print("finished")
+'''x=[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
+y1=[0.737,0.805,0.8,0.803,0.803,0.805,0.805,0.8,0.8,0.803,0.803]
+y2=[0.76 ,0.76,0.76,0.76,0.76,0.76,0.76,0.76,0.76,0.76,0.76]
+y3=[0,0,0,0,0,0,0,0,0,0,0]
+y4=[0.925,0.923,0.924,0.924,0.924,0.925,0.925,0.925,0.926,0.927,0.927]
+y5=[0.795,0.797,0.797,0.797,0.797,0.797,0.797,0.797,0.796,0.796,0.798]
+y6=[0.712,0.713,0.716,0.717,0.717,0.717,0.718,0.718,0.718,0.718,0.718]
+plt.title("V=1,n=3")
+
+plt.xlabel("smoothing factor")
+plt.ylabel("class recalls")
+plt.scatter(x,y1,color='red',label="basgue")
+plt.scatter(x,y2,color='blue',label="catalan")
+plt.scatter(x,y3,color='black',label="galician")
+plt.scatter(x,y4,color='green',label="spanish")
+plt.scatter(x,y5,color='yellow',label="english")
+plt.scatter(x,y6,color='brown',label="portoguse")
+ax = plt.subplot(111)
+chartBox = ax.get_position()
+ax.set_position([chartBox.x0, chartBox.y0, chartBox.width*0.6, chartBox.height])
+ax.legend(loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1)
+plt.show()'''
