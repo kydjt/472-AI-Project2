@@ -1,0 +1,5 @@
+0.054285714285714284
+0.054285714285714284  undefined  undefined  undefined  undefined  undefined
+1.0  0.0  0.0  0.0  0.0  0.0
+0.10298102981029811  undefined  undefined  undefined  undefined  undefined
+0.01716350496838302  0.0055903987611304684

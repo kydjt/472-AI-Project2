@@ -1,6 +1,6 @@
 import numpy as np
 import math
-import matplotlib.pyplot as plt
+
 #a method to sum all elements of a list
 def totalcountlist(mylist):
     sum=0
@@ -122,6 +122,18 @@ def createtrigramisalpha(mystring):
     return mytrigramdic
 
 
+def create4gramisalpha(mystring):
+    my4gramdic={}
+    for i in range(len(mystring)-3):
+        if(mystring[i].isalpha() and mystring[i+1].isalpha() and mystring[i+2].isalpha() and mystring[i+3].isalpha()):
+            fourgramkey=(mystring[i]+mystring[i+1]+mystring[i+2]+mystring[i+3])
+            if(not(fourgramkey in my4gramdic)):
+                my4gramdic[fourgramkey]=1
+            elif(fourgramkey in my4gramdic):
+                my4gramdic[fourgramkey]=float(my4gramdic[fourgramkey])+1
+    return my4gramdic
+
+
 # merging two dictionaries
 def combinedictionaries(dic1,dic2):
     for i in dic2:
@@ -133,6 +145,13 @@ def combinedictionaries(dic1,dic2):
 
 
 
+def getfirst3letof4gram(mydic):
+    mylist=[]
+    for i in mydic:
+        trigram=i[0]+i[1]+i[2]
+        if(not (trigram  in mylist)):
+            mylist.append(trigram)
+    return mylist
 
 
 def trainv1(train,n):
@@ -476,6 +495,17 @@ def trainv3(train,n):
     countalphatrigramspanish = {}
     countalphatrigramenglish = {}
     countalphatrigramportoguse = {}
+
+
+    countalpha4grambasque = {}
+    countalpha4gramcatalan = {}
+    countalpha4gramgalician = {}
+    countalpha4gramspanish = {}
+    countalpha4gramenglish = {}
+    countalpha4gramportoguse = {}
+
+
+
     results=[]
     with open(train, encoding="utf8") as f:
         for line in f:
@@ -560,6 +590,33 @@ def trainv3(train,n):
                 countalphaportoguse = combinedictionaries(countalphaportoguse, createcountisalpha(copystring[i]))
                 countalphatrigramportoguse = combinedictionaries(countalphatrigramportoguse, createtrigramisalpha(copystring[i]))
                 numtweetportoguse += 1
+        elif(n==4):
+            if (copytweets[i][2] == 'eu'):
+                countalphabasque = combinedictionaries(countalphabasque, createcountisalpha(copystring[i]))
+                countalpha4grambasque = combinedictionaries(countalpha4grambasque, create4gramisalpha(copystring[i]))
+                numtweetbasque += 1
+            elif (copytweets[i][2] == 'ca'):
+                countalphacatalan = combinedictionaries(countalphacatalan, createcountisalpha(copystring[i]))
+                countalpha4gramcatalan = combinedictionaries(countalpha4gramcatalan, create4gramisalpha(copystring[i]))
+                numtweetcatalan += 1
+            elif (copytweets[i][2] == 'gl'):
+                countalphagalician = combinedictionaries(countalphagalician, createcountisalpha(copystring[i]))
+                countalpha4gramgalician =combinedictionaries(countalpha4gramgalician, create4gramisalpha(copystring[i]))
+                numtweetgalician += 1
+            elif (copytweets[i][2] == 'es'):
+                countalphaspanish = combinedictionaries(countalphaspanish, createcountisalpha(copystring[i]))
+                countalpha4gramspanish = combinedictionaries(countalpha4gramspanish, create4gramisalpha(copystring[i]))
+                numtweetspanish += 1
+            elif (copytweets[i][2] == 'en'):
+                countalphaenglish = combinedictionaries(countalphaenglish, createcountisalpha(copystring[i]))
+                countalpha4gramenglish = combinedictionaries(countalpha4gramenglish, create4gramisalpha(copystring[i]))
+                numtweetenglish += 1
+            elif (copytweets[i][2] == 'pt'):
+                countalphaportoguse = combinedictionaries(countalphaportoguse, createcountisalpha(copystring[i]))
+                countalpha4gramportoguse = combinedictionaries(countalpha4gramportoguse, create4gramisalpha(copystring[i]))
+                numtweetportoguse += 1
+
+
 
     if(n==1):
         results.append(numtweetbasque)
@@ -640,6 +697,37 @@ def trainv3(train,n):
         results.append(getfirst2letoftrigram(countalphatrigramspanish))
         results.append(getfirst2letoftrigram(countalphatrigramenglish))
         results.append(getfirst2letoftrigram(countalphatrigramportoguse))
+
+    elif(n==4):
+        results.append(numtweetbasque)
+        results.append(numtweetcatalan)
+        results.append(numtweetgalician)
+        results.append(numtweetspanish)
+        results.append(numtweetenglish)
+        results.append(numtweetportoguse)
+
+        results.append(countalpha4grambasque)
+        results.append(countalpha4gramcatalan)
+        results.append(countalpha4gramgalician)
+        results.append(countalpha4gramspanish)
+        results.append(countalpha4gramenglish)
+        results.append(countalpha4gramportoguse)
+
+        results.append(len(countalphabasque))
+        results.append(len(countalphacatalan))
+        results.append(len(countalphagalician))
+        results.append(len(countalphaspanish))
+        results.append(len(countalphaenglish))
+        results.append(len(countalphaportoguse))
+
+        results.append(getfirst3letof4gram(countalpha4grambasque))
+        results.append(getfirst3letof4gram(countalpha4gramcatalan))
+        results.append(getfirst3letof4gram(countalpha4gramgalician))
+        results.append(getfirst3letof4gram(countalpha4gramspanish))
+        results.append(getfirst3letof4gram(countalpha4gramenglish))
+        results.append(getfirst3letof4gram(countalpha4gramportoguse))
+
+
 
 
     return results
@@ -873,6 +961,42 @@ def calculatescoreisalphatrigram(mystring, smoothing, classsize, vocabularysize,
     return score
 
 
+def count4gramtotal123(dic,one,two,three):
+    sum=0
+    for i in dic:
+        if(i[0]==one and i[1]==two and i[2]==three):
+            sum+=float(dic[i])
+    return sum
+
+
+def calculatescoreisalpha4gram(mystring, smoothing, classsize, vocabularysize, totaldocs, traininglist,trigramlist):
+    score = 0
+    for i in range(len(mystring)-3):
+        fourgram=mystring[i] + mystring[i + 1]+mystring[i+2]+mystring[i+3]
+        trigram=mystring[i] + mystring[i + 1]+mystring[i+2]
+        if ((mystring[i].isalpha()) and (mystring[i + 1].isalpha()) and (mystring[i + 2].isalpha() ) and(mystring[i+3].isalpha()) and (fourgram in traininglist)):
+            if((float(traininglist[fourgram]) + smoothing) >0 and (count4gramtotal123(traininglist,mystring[i],mystring[i+1],mystring[i+2]) + (vocabularysize + 1) * smoothing)>0):
+
+                score += math.log(((float(traininglist[fourgram]) + smoothing) / (count4gramtotal123(traininglist,mystring[i],mystring[i+1],mystring[i+2]) + (vocabularysize + 1) * smoothing)), 10)
+            else:
+                score=(-99999999)
+        elif ((mystring[i].isalpha() )and  (mystring[i + 1].isalpha()) and  (mystring[i + 2].isalpha()) and(mystring[i+3].isalpha()) and  (not (fourgram in traininglist)) and (trigram in trigramlist) ):
+            if((smoothing)>0 and (count4gramtotal123(traininglist, mystring[i], mystring[i + 1],mystring[i+2]) + (vocabularysize + 1) * smoothing)>0 ):
+                score += math.log(((smoothing) / (count4gramtotal123(traininglist, mystring[i], mystring[i + 1],mystring[i+2]) + (vocabularysize + 1) * smoothing)), 10)
+            else:
+                score=(-99999999)
+        elif ((mystring[i].isalpha()) and  (mystring[i + 1].isalpha()) and  (mystring[i + 2].isalpha())  and (mystring[i+3].isalpha()) and (not (trigram in trigramlist) )):
+            if((smoothing)>0 and ( (vocabularysize + 1) * smoothing)>0):
+
+                score += math.log((smoothing) / ( (vocabularysize + 1) * smoothing), 10)
+            else:
+                score=(-99999999)
+
+    score += math.log((classsize / totaldocs), 10)
+    return score
+
+
+
 
 def calculatescores(mystring,smoothing,classsize,vocabularysize,totaldocs,traininglist):
     score=0
@@ -887,6 +1011,7 @@ def calculatescores(mystring,smoothing,classsize,vocabularysize,totaldocs,traini
 
 def naivebayes(v,n,delta,train,test):
     nameoftracefile="trace_"+str(v)+"_"+str(n)+"_"+str(delta)+".txt"
+    confusionmatrix=np.array([[0] * 6] * 6)
     f1 = open(nameoftracefile, "w+", encoding="utf8")
     numcorrectclass=0
     results=[]
@@ -1002,6 +1127,14 @@ def naivebayes(v,n,delta,train,test):
             scores[4] = calculatescoreisalphatrigram(copystring[i], delta, results[4], results[16], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10],results[22])
             scores[5] = calculatescoreisalphatrigram(copystring[i], delta, results[5], results[17], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11],results[23])
 
+        elif(v==3 and n==4):
+            scores[0] = calculatescoreisalpha4gram(copystring[i], delta, results[0], results[12], (results[0] +  results[1]+  results[2] +  results[3]+  results[4] +  results[5]), results[6],results[18])
+            scores[1] = calculatescoreisalpha4gram(copystring[i], delta, results[1], results[13], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7],results[19])
+            scores[2] = calculatescoreisalpha4gram(copystring[i], delta, results[2], results[14], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8],results[20])
+            scores[3] = calculatescoreisalpha4gram(copystring[i], delta, results[3], results[15], (results[0] +  results[1]+  results[2] +  results[3]+  results[4] +  results[5]), results[9],results[21])
+            scores[4] = calculatescoreisalpha4gram(copystring[i], delta, results[4], results[16], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10],results[22])
+            scores[5] = calculatescoreisalpha4gram(copystring[i], delta, results[5], results[17], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11],results[23])
+
         indexm=0
         for j in range(6):
             if(scores[j]>scores[indexm]):
@@ -1022,19 +1155,26 @@ def naivebayes(v,n,delta,train,test):
             label='pt'
         if(label==copytweets[i][2]):
             label2="correct"
+
             numcorrectclass+=1
             if(label=='eu'):
                 correctbasque+=1
+                confusionmatrix[0][0]+=1
             elif(label=='ca'):
                 correctcatalan+=1
+                confusionmatrix[1][1] += 1
             elif(label=='gl'):
                 correctgalician+=1
+                confusionmatrix[2][2] += 1
             elif(label=='es'):
                 correctspanish+=1
+                confusionmatrix[3][3] += 1
             elif(label=='en'):
                 correctenglish+=1
+                confusionmatrix[4][4] += 1
             elif(label=='pt'):
                 correctportoguse+=1
+                confusionmatrix[5][5] += 1
         else:
             label2="wrong"
             if(label=='eu'):
@@ -1052,17 +1192,81 @@ def naivebayes(v,n,delta,train,test):
 
             if(copytweets[i][2]=='eu'):
                 falsenegativebasque+=1
+                if(label=="ca"):
+                    confusionmatrix[0][1]+=1
+                elif (label=="gl"):
+                    confusionmatrix[0][2] += 1
+                elif(label=="es"):
+                    confusionmatrix[0][3] += 1
+                elif(label=="en"):
+                    confusionmatrix[0][4]+=1
+                elif(label=="pt"):
+                    confusionmatrix[0][5]+=1
+
+
+
             elif(copytweets[i][2]=='ca'):
+                if (label == "eu"):
+                    confusionmatrix[1][0] += 1
+                elif (label == "gl"):
+                    confusionmatrix[1][2] += 1
+                elif (label == "es"):
+                    confusionmatrix[1][3] += 1
+                elif (label=="en"):
+                    confusionmatrix[1][4] += 1
+                elif (label=="pt"):
+                    confusionmatrix[1][5] += 1
                 falsenegativecatalan+=1
+
             elif(copytweets[i][2]=='gl'):
                 falsenegativegalician+=1
+                if (label == "eu"):
+                    confusionmatrix[2][0] += 1
+                elif (label == "ca"):
+                    confusionmatrix[2][1] += 1
+                elif (label == "es"):
+                    confusionmatrix[2][3] += 1
+                elif (label=="en"):
+                    confusionmatrix[2][4] += 1
+                elif (label=="pt"):
+                    confusionmatrix[2][5] += 1
 
             elif(copytweets[i][2]=='es'):
+                if (label == "eu"):
+                    confusionmatrix[3][0] += 1
+                elif (label == "ca"):
+                    confusionmatrix[3][1] += 1
+                elif (label == "gl"):
+                    confusionmatrix[3][2] += 1
+                elif (label=="en"):
+                    confusionmatrix[3][4] += 1
+                elif (label=="pt"):
+                    confusionmatrix[3][5] += 1
                 falsenegativespanish+=1
             elif(copytweets[i][2]=='en'):
                 falsenegativeenglish+=1
+                if (label == "eu"):
+                    confusionmatrix[4][0] += 1
+                elif (label == "ca"):
+                    confusionmatrix[4][1] += 1
+                elif (label == "gl"):
+                    confusionmatrix[4][2] += 1
+                elif (label=="es"):
+                    confusionmatrix[4][3] += 1
+                elif (label=="pt"):
+                    confusionmatrix[4][5] += 1
             elif(copytweets[i][2]=='pt'):
                 falsenegativeportoguse+=1
+                if (label == "eu"):
+                    confusionmatrix[5][0] += 1
+                elif (label == "ca"):
+                    confusionmatrix[5][1] += 1
+                elif (label == "gl"):
+                    confusionmatrix[5][2] += 1
+                elif (label=="es"):
+                    confusionmatrix[5][3] += 1
+                elif (label=="en"):
+                    confusionmatrix[5][4] += 1
 
 
         f1.write(copytweets[i][0]+"  "+label+"  "+"{:.2e}".format((scores[indexm]))+"  "+copytweets[i][2]+"  "+label2+"\n")
@@ -1209,7 +1413,7 @@ def naivebayes(v,n,delta,train,test):
         f1portoguse = "undefined"
 
     macrof1=  (macrof1) / 6
-    waveragef1=  (waveragef1) / (+testbasque+testcatalan+testgalician+testspanish+testenglish+testportoguse)
+    waveragef1=  (waveragef1) / (testbasque+testcatalan+testgalician+testspanish+testenglish+testportoguse)
 
 
     nameoffile2="eval_"+str(v)+"_"+str(n)+"_"+str(delta)+".txt"
@@ -1219,29 +1423,156 @@ def naivebayes(v,n,delta,train,test):
     f2.write(str(recallbasque) + "  " + str(recallcatalan) + "  " + str(recallgalician) + "  " + str(recallspanish) + "  " + str(recallenglish) + "  " + str(recallportoguse) + "\n")
     f2.write(str(f1basque) + "  " + str(f1catalan) + "  " + str(f1galician) + "  " + str(f1spanish) + "  " + str(f1english) + "  " + str(f1portoguse) + "\n")
     f2.write(str(macrof1)+"  "+str(waveragef1))
+    print(confusionmatrix)
+    print(testbasque)
+    print(testcatalan)
+    print(testgalician)
+    print(testspanish)
+    print(testenglish)
+    print(testportoguse)
 
 
-naivebayes(3,2,0.2,"training-tweets.txt","test-tweets-given.txt")
-print("finished")
-'''x=[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
-y1=[0.737,0.805,0.8,0.803,0.803,0.805,0.805,0.8,0.8,0.803,0.803]
-y2=[0.76 ,0.76,0.76,0.76,0.76,0.76,0.76,0.76,0.76,0.76,0.76]
-y3=[0,0,0,0,0,0,0,0,0,0,0]
-y4=[0.925,0.923,0.924,0.924,0.924,0.925,0.925,0.925,0.926,0.927,0.927]
-y5=[0.795,0.797,0.797,0.797,0.797,0.797,0.797,0.797,0.796,0.796,0.798]
-y6=[0.712,0.713,0.716,0.717,0.717,0.717,0.718,0.718,0.718,0.718,0.718]
-plt.title("V=1,n=3")
 
+naivebayes(3,4,1.0,"training-tweets.txt","test-tweets-given.txt")
+print("completed")
+
+
+
+
+'''
+decim=[]
+decim.append(str(0))
+decim.append(str(0.1))
+decim.append(str(0.2))
+decim.append(str(0.3))
+decim.append(str(0.4))
+decim.append(str(0.5))
+decim.append(str(0.6))
+decim.append(str(0.7))
+decim.append(str(0.8))
+decim.append(str(0.9))
+decim.append(str(1))
+#naivebayes(3,2,0.2,"training-tweets.txt","test-tweets-given.txt")
+precision=[]
+recall=[]
+f1=[]
+contents=[]
+
+for v in range(1,4):
+    for n in range(1,4):
+
+        for d in range(11):
+
+            filename="eval_"+str(v)+"_"+str(n)+"_"+str(decim[d])+".txt"
+
+
+            with open(filename, encoding="utf8") as f:
+                for line in f:
+                    contents.append(line)
+
+
+
+
+
+
+
+
+
+
+
+copys = [''] * (len(contents))
+for i in range(len(contents)):
+    if (i < (len(contents) - 1)):
+        contents[i] = contents[i][:-1]
+    copys[i] = contents[i].split()
+
+
+
+ya=[]
+
+yp1=[]
+yp2=[]
+yp3=[]
+yp4=[]
+yp5=[]
+yp6=[]
+yr1=[]
+yr2=[]
+yr3=[]
+yr4=[]
+yr5=[]
+yr6=[]
+yf1=[]
+yf2=[]
+yf3=[]
+yf4=[]
+yf5=[]
+yf6=[]
+ymacro=[]
+yave=[]
+for p in range(165,220):
+
+    for z in range(len(copys[p])):
+        if (copys[p][z] == "undefined"):
+             copys[p][z] = 0
+    if(p%5==1):
+
+        yp1.append(float(copys[p][0]))
+        yp2.append(float(copys[p][1]))
+        yp3.append(float(copys[p][2]))
+        yp4.append(float(copys[p][3]))
+        yp5.append(float(copys[p][4]))
+        yp6.append(float(copys[p][5]))
+    if(p%5==2):
+
+        yr1.append(float(copys[p][0]))
+        yr2.append(float(copys[p][1]))
+        yr3.append(float(copys[p][2]))
+        yr4.append(float(copys[p][3]))
+        yr5.append(float(copys[p][4]))
+        yr6.append(float(copys[p][5]))
+    if(p%5==3):
+        yf1.append(float(copys[p][0]))
+        yf2.append(float(copys[p][1]))
+        yf3.append(float(copys[p][2]))
+        yf4.append(float(copys[p][3]))
+        yf5.append(float(copys[p][4]))
+        yf6.append(float(copys[p][5]))
+    if (p % 5 == 4):
+        ymacro.append(float(copys[p][0]))
+        yave.append(float(copys[p][1]))
+    if(p%5==0):
+        ya.append(float(copys[p][0]))
+
+
+    
+
+
+
+x=[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
+
+plt.title("V=2,n=1")
 plt.xlabel("smoothing factor")
-plt.ylabel("class recalls")
-plt.scatter(x,y1,color='red',label="basgue")
-plt.scatter(x,y2,color='blue',label="catalan")
-plt.scatter(x,y3,color='black',label="galician")
-plt.scatter(x,y4,color='green',label="spanish")
-plt.scatter(x,y5,color='yellow',label="english")
-plt.scatter(x,y6,color='brown',label="portoguse")
+
+plt.ylabel("class recall")
+
+plt.scatter(x,yr1,color='red',label="basque")
+plt.scatter(x,yr2,color='blue',label="catalan")
+plt.scatter(x,yr3,color='black',label="galician")
+plt.scatter(x,yr4,color='green',label="spanish")
+plt.scatter(x,yr5,color='yellow',label="english")
+plt.scatter(x,yr6,color='brown',label="portoguse")
+
+
+plt.scatter(x,ymacro,color='red',label="macrof1")
+plt.scatter(x,yave,color='blue',label="weighted_average_f1")
+
+
+plt.scatter(x,ya,color='red',label="accuracy")
+
 ax = plt.subplot(111)
 chartBox = ax.get_position()
 ax.set_position([chartBox.x0, chartBox.y0, chartBox.width*0.6, chartBox.height])
 ax.legend(loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1)
-plt.show()'''
+plt.show()
+'''
