@@ -8,99 +8,23 @@ def totalcountlist(mylist):
         sum+=float(mylist[i])
     return sum
 
-# creating unigram only lower case letters a-z
-def createcountsoflowercase(mystring):
-    mystring=mystring.lower()
-    mylist=[0]*26
-    for char in mystring:
-        if(ord(char)>=97 and ord(char)<=122):
-            mylist[ord(char)-97]+=1
-    return mylist
-
-# creating unigrams lower case and upper case
-def createcountsofloweranduppercase(mystring):
-    mylist=[0]*52
-    for char in mystring:
-        if(ord(char)>=65 and ord(char)<=90):
-            mylist[ord(char)-39]+=1
-        if (ord(char) >= 97 and ord(char) <= 122):
-            mylist[ord(char) - 97] += 1
-    return mylist
-
-
-# creating bigrams lower case a-z
-def createbigramlower(mystring):
-    mystring = mystring.lower()
-    mylist=np.array([[0]*26]*26)
-    for i in range(len(mystring)-1):
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122):
-            mylist[ord(mystring[i])-97][ord(mystring[i+1])-97]+=1
-    return mylist
-
-# creating trigram lower case a-z
-def createtrigramlower(mystring):
-    mystring = mystring.lower()
-    mylist=np.array([[[0]*26]*26]*26)
-    for i in range(len(mystring)-2):
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            mylist[ord(mystring[i])-97][ord(mystring[i+1])-97][ord(mystring[i+2])-97]+=1
-    return mylist
-
-# creating bigrams a-z and A-Z
-def createbigram(mystring):
-    mylist=np.array([[0]*52]*52)
-    for i in range(len(mystring)-1):
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122):
-            mylist[ord(mystring[i])-97][ord(mystring[i+1])-97]+=1
-        if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90):
-            mylist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39] += 1
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90):
-                mylist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39] += 1
-        if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 97 and ord(mystring[i + 1]) <= 122):
-                    mylist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97] += 1
-    return mylist
-
-# CREATING TRIGRAMS A-Z AND a-z
-def createtrigram(mystring):
-    mylist=np.array([[[0]*52]*52]*52)
-    for i in range(len(mystring)-2):
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            mylist[ord(mystring[i])-97][ord(mystring[i+1])-97][ord(mystring[i+2])-97]+=1
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i + 1]) >= 97 and ord(mystring[i + 1]) <= 122 and ord(mystring[i+2]) >= 65 and ord(mystring[i+2]) <= 90):
-            mylist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 97][ord(mystring[i+2])-39] += 1
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            mylist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39][ord(mystring[i+2])-97]  += 1
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90 and ord(mystring[i + 2]) >= 65 and ord(mystring[i + 2]) <= 90):
-            mylist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 39] += 1
-        if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            mylist[ord(mystring[i])-39][ord(mystring[i+1])-97][ord(mystring[i+2])-97]+=1
-        if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 97 and ord(mystring[i + 1]) <= 122 and ord(mystring[i+2]) >= 65 and ord(mystring[i+2]) <= 90):
-            mylist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97][ord(mystring[i+2])-39]+= 1
-        if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            mylist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39][ord(mystring[i+2])-97]+= 1
-        if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90 and ord(mystring[i + 2]) >= 65 and ord(mystring[i + 2]) <= 90):
-            mylist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 39] += 1
-
-
-    return mylist
-
 
 # creating unigram with isalpha
 def createcountisalpha(mystring):
         mydictionary={}
-        for char in mystring:
-            if (char.isalpha()):
-                if(not (char in mydictionary)):
-                    mydictionary[char]=1
-                elif(char in mydictionary):
-                    mydictionary[char]=(float(mydictionary[char])+1)
+        for char1 in mystring:
+            if (char1.isalpha() or char1==" "):
+                if(not (char1 in mydictionary)):
+                    mydictionary[char1]=1
+                elif(char1 in mydictionary):
+                    mydictionary[char1]=(float(mydictionary[char1])+1)
         return mydictionary
 
 #creating bigram with isalpha
 def createbigramisalpha(mystring):
     mybigramdic={}
     for i in range(len(mystring)-1):
-        if(mystring[i].isalpha() and mystring[i+1].isalpha()):
+        if((mystring[i].isalpha() or mystring[i]==" ") and (mystring[i+1].isalpha() or mystring[i+1]==" ")):
             bigramkey=(mystring[i]+mystring[i+1])
             if(not(bigramkey in mybigramdic)):
                 mybigramdic[bigramkey]=1
@@ -113,7 +37,7 @@ def createbigramisalpha(mystring):
 def createtrigramisalpha(mystring):
     mytrigramdic={}
     for i in range(len(mystring)-2):
-        if(mystring[i].isalpha() and mystring[i+1].isalpha() and mystring[i+2].isalpha()):
+        if((mystring[i].isalpha() or mystring[i]==" ") and (mystring[i+1].isalpha() or mystring[i+1]==" ") and (mystring[i+2].isalpha() or mystring[i+2]==" ")):
             trigramkey=(mystring[i]+mystring[i+1]+mystring[i+2])
             if(not(trigramkey in mytrigramdic)):
                 mytrigramdic[trigramkey]=1
@@ -125,7 +49,7 @@ def createtrigramisalpha(mystring):
 def create4gramisalpha(mystring):
     my4gramdic={}
     for i in range(len(mystring)-3):
-        if(mystring[i].isalpha() and mystring[i+1].isalpha() and mystring[i+2].isalpha() and mystring[i+3].isalpha()):
+        if((mystring[i].isalpha() or mystring[i]==" ") and (mystring[i+1].isalpha() or mystring[i+1]==" ") and (mystring[i+2].isalpha() or mystring[i+2]==" ") and (mystring[i+3].isalpha() or mystring[i+3]==" ")):
             fourgramkey=(mystring[i]+mystring[i+1]+mystring[i+2]+mystring[i+3])
             if(not(fourgramkey in my4gramdic)):
                 my4gramdic[fourgramkey]=1
@@ -153,309 +77,9 @@ def getfirst3letof4gram(mydic):
             mylist.append(trigram)
     return mylist
 
-def trainv0(train,n):
-    tweets = []
-    numtweetbasque = 0
-    numtweetcatalan = 0
-    numtweetgalician = 0
-    numtweetspanish = 0
-    numtweetenglish = 0
-    numtweetportoguse = 0
-
-    countbasque = [0] * 26
-    countcatalan = [0] * 26
-    countgalician = [0] * 26
-    countspanish = [0] * 26
-    countenglish = [0] * 26
-    countportoguse = [0] * 26
-
-    countbasquebigram = np.array([[0] * 26] * 26)
-    countcatalanbigram = np.array([[0] * 26] * 26)
-    countgalicianbigram = np.array([[0] * 26] * 26)
-    countspanishbigram = np.array([[0] * 26] * 26)
-    countenglishbigram = np.array([[0] * 26] * 26)
-    countportogusebigram = np.array([[0] * 26] * 26)
-
-    countbasquetrigram = np.array([[[0] * 26] * 26] * 26)
-    countcatalantrigram = np.array([[[0] * 26] * 26] * 26)
-    countgaliciantrigram = np.array([[[0] * 26] * 26] * 26)
-    countspanishtrigram = np.array([[[0] * 26] * 26] * 26)
-    countenglishtrigram = np.array([[[0] * 26] * 26] * 26)
-    countportogusetrigram = np.array([[[0] * 26] * 26] * 26)
-    results = []
-    with open(train, encoding="utf8") as f:
-        for line in f:
-            tweets.append(line)
-    copystring = [''] * (len(tweets))
-    copytweets = [''] * (len(tweets))
-    for i in range(len(tweets)):
-        if (i < (len(tweets) - 1)):
-            tweets[i] = tweets[i][:-1]
-        copytweets[i] = tweets[i].split()
-
-        index = tweets[i].index(copytweets[i][3])
-        copystring[i] = tweets[i][index:]
-        if(n==1):
-
-            if (copytweets[i][2] == 'eu'):
-                countbasque += np.array(createcountsoflowercase(copystring[i]))
-                numtweetbasque += 1
-            elif (copytweets[i][2] == 'ca'):
-                countcatalan += np.array(createcountsoflowercase(copystring[i]))
-                numtweetcatalan += 1
-            elif (copytweets[i][2] == 'gl'):
-                countgalician += np.array(createcountsoflowercase(copystring[i]))
-                numtweetgalician += 1
-            elif (copytweets[i][2] == 'es'):
-                countspanish += np.array(createcountsoflowercase(copystring[i]))
-                numtweetspanish += 1
-            elif (copytweets[i][2] == 'en'):
-                countenglish += np.array(createcountsoflowercase(copystring[i]))
-                numtweetenglish += 1
-            elif (copytweets[i][2] == 'pt'):
-                countportoguse += np.array(createcountsoflowercase(copystring[i]))
-                numtweetportoguse += 1
-        elif(n==2):
-
-            if (copytweets[i][2] == 'eu'):
-                countbasquebigram += np.array(createbigramlower(copystring[i]))
-                numtweetbasque += 1
-            elif (copytweets[i][2] == 'ca'):
-                countcatalanbigram += np.array(createbigramlower(copystring[i]))
-                numtweetcatalan += 1
-            elif (copytweets[i][2] == 'gl'):
-                countgalicianbigram += np.array(createbigramlower(copystring[i]))
-                numtweetgalician += 1
-            elif (copytweets[i][2] == 'es'):
-                countspanishbigram += np.array(createbigramlower(copystring[i]))
-                numtweetspanish += 1
-            elif (copytweets[i][2] == 'en'):
-                countenglishbigram += np.array(createbigramlower(copystring[i]))
-                numtweetenglish += 1
-            elif (copytweets[i][2] == 'pt'):
-                countportogusebigram += np.array(createbigramlower(copystring[i]))
-                numtweetportoguse += 1
-        elif(n==3):
-
-            if (copytweets[i][2] == 'eu'):
-                countbasquetrigram += np.array(createtrigramlower(copystring[i]))
-                numtweetbasque += 1
-            elif (copytweets[i][2] == 'ca'):
-                countcatalantrigram += np.array(createtrigramlower(copystring[i]))
-                numtweetcatalan += 1
-            elif (copytweets[i][2] == 'gl'):
-                countgaliciantrigram += np.array(createtrigramlower(copystring[i]))
-                numtweetgalician += 1
-            elif (copytweets[i][2] == 'es'):
-                countspanishtrigram += np.array(createtrigramlower(copystring[i]))
-                numtweetspanish += 1
-            elif (copytweets[i][2] == 'en'):
-                countenglishtrigram += np.array(createtrigramlower(copystring[i]))
-                numtweetenglish += 1
-            elif (copytweets[i][2] == 'pt'):
-                countportogusetrigram += np.array(createtrigramlower(copystring[i]))
-                numtweetportoguse += 1
-
-    if(n==1):
-        results.append(numtweetbasque)
-        results.append(numtweetcatalan)
-        results.append(numtweetgalician)
-        results.append(numtweetspanish)
-        results.append(numtweetenglish)
-        results.append(numtweetportoguse)
-
-        results.append(countbasque)
-        results.append(countcatalan)
-        results.append(countgalician)
-        results.append(countspanish)
-        results.append(countenglish)
-        results.append(countportoguse)
-
-    elif(n==2):
-        results.append(numtweetbasque)
-        results.append(numtweetcatalan)
-        results.append(numtweetgalician)
-        results.append(numtweetspanish)
-        results.append(numtweetenglish)
-        results.append(numtweetportoguse)
-
-        results.append(countbasquebigram)
-        results.append(countcatalanbigram)
-        results.append(countgalicianbigram)
-        results.append(countspanishbigram)
-        results.append(countenglishbigram)
-        results.append(countportogusebigram)
-
-    elif(n==3):
-
-        results.append(numtweetbasque)
-        results.append(numtweetcatalan)
-        results.append(numtweetgalician)
-        results.append(numtweetspanish)
-        results.append(numtweetenglish)
-        results.append(numtweetportoguse)
-
-        results.append(countbasquetrigram)
-        results.append(countcatalantrigram)
-        results.append(countgaliciantrigram)
-        results.append(countspanishtrigram)
-        results.append(countenglishtrigram)
-        results.append(countportogusetrigram)
-
-    return results
 
 
 
-def trainv1(train,n):
-    tweets = []
-    numtweetbasque = 0
-    numtweetcatalan = 0
-    numtweetgalician = 0
-    numtweetspanish = 0
-    numtweetenglish = 0
-    numtweetportoguse = 0
-
-    countbasquecasesensitive=[0]*52
-    countcatalancasesensitive = [0] * 52
-    countgaliciancasesensitive = [0] * 52
-    countspanishcasesensitive = [0] * 52
-    countenglishcasesensitive = [0] * 52
-    countportogusecasesensitive = [0] * 52
-
-    countbasquebigramcase = np.array([[0] * 52] * 52)
-    countcatalanbigramcase = np.array([[0] * 52] * 52)
-    countgalicianbigramcase = np.array([[0] * 52] * 52)
-    countspanishbigramcase = np.array([[0] * 52] * 52)
-    countenglishbigramcase = np.array([[0] * 52] * 52)
-    countportogusebigramcase = np.array([[0] * 52] * 52)
-
-    countbasquetrigramcase = np.array([[[0]*52]*52]*52)
-    countcatalantrigramcase = np.array([[[0]*52]*52]*52)
-    countgaliciantrigramcase = np.array([[[0]*52]*52]*52)
-    countspanishtrigramcase = np.array([[[0]*52]*52]*52)
-    countenglishtrigramcase = np.array([[[0]*52]*52]*52)
-    countportogusetrigramcase = np.array([[[0]*52]*52]*52)
-
-    results = []
-
-    with open(train, encoding="utf8") as f:
-        for line in f:
-            tweets.append(line)
-    copystring = [''] * (len(tweets))
-    copytweets = [''] * (len(tweets))
-    for i in range(len(tweets)):
-        if (i < (len(tweets) - 1)):
-            tweets[i] = tweets[i][:-1]
-        copytweets[i] = tweets[i].split()
-        index = tweets[i].index(copytweets[i][3])
-        copystring[i] = tweets[i][index:]
-        if(n==1):
-
-            if (copytweets[i][2] == 'eu'):
-                countbasquecasesensitive += np.array(createcountsofloweranduppercase(copystring[i]))
-                numtweetbasque += 1
-            elif (copytweets[i][2] == 'ca'):
-                countcatalancasesensitive += np.array(createcountsofloweranduppercase(copystring[i]))
-                numtweetcatalan += 1
-            elif (copytweets[i][2] == 'gl'):
-                countgaliciancasesensitive += np.array(createcountsofloweranduppercase(copystring[i]))
-                numtweetgalician += 1
-            elif (copytweets[i][2] == 'es'):
-                countspanishcasesensitive += np.array(createcountsofloweranduppercase(copystring[i]))
-                numtweetspanish += 1
-            elif (copytweets[i][2] == 'en'):
-                countenglishcasesensitive += np.array(createcountsofloweranduppercase(copystring[i]))
-                numtweetenglish += 1
-            elif (copytweets[i][2] == 'pt'):
-                countportogusecasesensitive += np.array(createcountsofloweranduppercase(copystring[i]))
-                numtweetportoguse += 1
-        elif(n==2):
-
-            if (copytweets[i][2] == 'eu'):
-                countbasquebigramcase += np.array(createbigram(copystring[i]))
-                numtweetbasque += 1
-            elif (copytweets[i][2] == 'ca'):
-                countcatalanbigramcase += np.array(createbigram(copystring[i]))
-                numtweetcatalan += 1
-            elif (copytweets[i][2] == 'gl'):
-                countgalicianbigramcase += np.array(createbigram(copystring[i]))
-                numtweetgalician += 1
-            elif (copytweets[i][2] == 'es'):
-                countspanishbigramcase += np.array(createbigram(copystring[i]))
-                numtweetspanish += 1
-            elif (copytweets[i][2] == 'en'):
-                countenglishbigramcase += np.array(createbigram(copystring[i]))
-                numtweetenglish += 1
-            elif (copytweets[i][2] == 'pt'):
-                countportogusebigramcase += np.array(createbigram(copystring[i]))
-                numtweetportoguse += 1
-        elif(n==3):
-
-            if (copytweets[i][2] == 'eu'):
-                countbasquetrigramcase += np.array(createtrigram(copystring[i]))
-                numtweetbasque += 1
-            elif (copytweets[i][2] == 'ca'):
-                countcatalantrigramcase += np.array(createtrigram(copystring[i]))
-                numtweetcatalan += 1
-            elif (copytweets[i][2] == 'gl'):
-                countgaliciantrigramcase += np.array(createtrigram(copystring[i]))
-                numtweetgalician += 1
-            elif (copytweets[i][2] == 'es'):
-                countspanishtrigramcase += np.array(createtrigram(copystring[i]))
-                numtweetspanish += 1
-            elif (copytweets[i][2] == 'en'):
-                countenglishtrigramcase += np.array(createtrigram(copystring[i]))
-                numtweetenglish += 1
-            elif (copytweets[i][2] == 'pt'):
-                countportogusetrigramcase += np.array(createtrigram(copystring[i]))
-                numtweetportoguse += 1
-
-    if(n==1):
-        results.append(numtweetbasque)
-        results.append(numtweetcatalan)
-        results.append(numtweetgalician)
-        results.append(numtweetspanish)
-        results.append(numtweetenglish)
-        results.append(numtweetportoguse)
-
-        results.append(countbasquecasesensitive)
-        results.append(countcatalancasesensitive)
-        results.append(countgaliciancasesensitive)
-        results.append(countspanishcasesensitive)
-        results.append(countenglishcasesensitive)
-        results.append(countportogusecasesensitive)
-
-    elif(n==2):
-        results.append(numtweetbasque)
-        results.append(numtweetcatalan)
-        results.append(numtweetgalician)
-        results.append(numtweetspanish)
-        results.append(numtweetenglish)
-        results.append(numtweetportoguse)
-
-        results.append(countbasquebigramcase)
-        results.append(countcatalanbigramcase)
-        results.append(countgalicianbigramcase)
-        results.append(countspanishbigramcase)
-        results.append(countenglishbigramcase)
-        results.append(countportogusebigramcase)
-
-    elif(n==3):
-        results.append(numtweetbasque)
-        results.append(numtweetcatalan)
-        results.append(numtweetgalician)
-        results.append(numtweetspanish)
-        results.append(numtweetenglish)
-        results.append(numtweetportoguse)
-
-        results.append(countbasquetrigramcase)
-        results.append(countcatalantrigramcase)
-        results.append(countgaliciantrigramcase)
-        results.append(countspanishtrigramcase)
-        results.append(countenglishtrigramcase)
-        results.append(countportogusetrigramcase)
-
-    return results
 
 def getfirst2letoftrigram(mydic):
     mylist=[]
@@ -465,7 +89,7 @@ def getfirst2letoftrigram(mydic):
             mylist.append(bigram)
     return mylist
 
-def trainv2(train,n):
+def trainv3(train,n):
     tweets = []
     numtweetbasque = 0
     numtweetcatalan = 0
@@ -502,6 +126,14 @@ def trainv2(train,n):
     countalpha4gramspanish = {}
     countalpha4gramenglish = {}
     countalpha4gramportoguse = {}
+
+    exclusivebasque=[]
+    exclusivecatalan=[]
+    exclusivegalician=[]
+    exclusivespanish=[]
+    exclusiveenglish=[]
+    exclusiveportoguse=[]
+
 
 
 
@@ -698,6 +330,33 @@ def trainv2(train,n):
         results.append(getfirst2letoftrigram(countalphatrigramenglish))
         results.append(getfirst2letoftrigram(countalphatrigramportoguse))
 
+        for i in countalphabasque:
+            if( (not(i in countalphacatalan)) and (not(i in countalphagalician)) and (not(i in countalphaspanish)) and (not(i in countalphaenglish)) and (not(i in countalphaportoguse)) ):
+                exclusivebasque.append(i)
+        for i in countalphacatalan:
+            if( (not(i in countalphabasque)) and (not(i in countalphagalician)) and (not(i in countalphaspanish)) and (not(i in countalphaenglish)) and (not(i in countalphaportoguse)) ):
+                exclusivecatalan.append(i)
+        for i in countalphagalician:
+            if( (not(i in countalphabasque)) and (not(i in countalphacatalan)) and (not(i in countalphaspanish)) and (not(i in countalphaenglish)) and (not(i in countalphaportoguse)) ):
+                exclusivegalician.append(i)
+        for i in countalphaspanish:
+            if( (not(i in countalphacatalan)) and (not(i in countalphagalician)) and (not(i in countalphabasque)) and (not(i in countalphaenglish)) and (not(i in countalphaportoguse)) ):
+                exclusivespanish.append(i)
+        for i in countalphaenglish:
+            if( (not(i in countalphacatalan)) and (not(i in countalphagalician)) and (not(i in countalphaspanish)) and (not(i in countalphabasque)) and (not(i in countalphaportoguse)) ):
+                exclusiveenglish.append(i)
+        for i in countalphaportoguse:
+            if( (not(i in countalphacatalan)) and (not(i in countalphagalician)) and (not(i in countalphaspanish)) and (not(i in countalphaenglish)) and (not(i in countalphabasque)) ):
+                exclusiveportoguse.append(i)
+
+        results.append(exclusivebasque)
+        results.append(exclusivecatalan)
+        results.append(exclusivegalician)
+        results.append(exclusivespanish)
+        results.append(exclusiveenglish)
+        results.append(exclusiveportoguse)
+
+
     elif(n==4):
         results.append(numtweetbasque)
         results.append(numtweetcatalan)
@@ -727,8 +386,31 @@ def trainv2(train,n):
         results.append(getfirst3letof4gram(countalpha4gramenglish))
         results.append(getfirst3letof4gram(countalpha4gramportoguse))
 
+        for i in countalphabasque:
+            if( (not(i in countalphacatalan)) and (not(i in countalphagalician)) and (not(i in countalphaspanish)) and (not(i in countalphaenglish)) and (not(i in countalphaportoguse)) ):
+                exclusivebasque.append(i)
+        for i in countalphacatalan:
+            if( (not(i in countalphabasque)) and (not(i in countalphagalician)) and (not(i in countalphaspanish)) and (not(i in countalphaenglish)) and (not(i in countalphaportoguse)) ):
+                exclusivecatalan.append(i)
+        for i in countalphagalician:
+            if( (not(i in countalphabasque)) and (not(i in countalphacatalan)) and (not(i in countalphaspanish)) and (not(i in countalphaenglish)) and (not(i in countalphaportoguse)) ):
+                exclusivegalician.append(i)
+        for i in countalphaspanish:
+            if( (not(i in countalphacatalan)) and (not(i in countalphagalician)) and (not(i in countalphabasque)) and (not(i in countalphaenglish)) and (not(i in countalphaportoguse)) ):
+                exclusivespanish.append(i)
+        for i in countalphaenglish:
+            if( (not(i in countalphacatalan)) and (not(i in countalphagalician)) and (not(i in countalphaspanish)) and (not(i in countalphabasque)) and (not(i in countalphaportoguse)) ):
+                exclusiveenglish.append(i)
+        for i in countalphaportoguse:
+            if( (not(i in countalphacatalan)) and (not(i in countalphagalician)) and (not(i in countalphaspanish)) and (not(i in countalphaenglish)) and (not(i in countalphabasque)) ):
+                exclusiveportoguse.append(i)
 
-
+        results.append(exclusivebasque)
+        results.append(exclusivecatalan)
+        results.append(exclusivegalician)
+        results.append(exclusivespanish)
+        results.append(exclusiveenglish)
+        results.append(exclusiveportoguse)
 
     return results
 
@@ -760,139 +442,6 @@ def countkeys(mydict):
 
 
 
-def calculatescorebigram(mystring,smoothing,classsize,vocabularysize,totaldocs,traininglist):
-    score=0
-    for i in range(len(mystring)-1):
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and (ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122)):
-            if((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]+smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize) >0):
-                score+=math.log(((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]+smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-    score+=math.log((classsize/totaldocs),10)
-    return score
-
-
-def calculatescoretrigram(mystring, smoothing, classsize, vocabularysize, totaldocs, traininglist):
-    score = 0
-    for i in range(len(mystring) - 2):
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            if((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97][ord(mystring[i+2])-97]+smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)>0 ):
-
-
-                score+=math.log(((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97][ord(mystring[i+2])-97]+smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-    score+=math.log((classsize/totaldocs),10)
-    return score
-
-def calculatescorescase(mystring,smoothing,classsize,vocabularysize,totaldocs,traininglist):
-    score=0
-    for i in range(len(mystring)):
-        if((ord(mystring[i])>=97 and ord(mystring[i])<=122)):
-            if((traininglist[ord(mystring[i])-97]+smoothing)>0 and (totalcountlist(traininglist)+vocabularysize*smoothing)>0):
-                score+=math.log(((traininglist[ord(mystring[i])-97]+smoothing)/(totalcountlist(traininglist)+vocabularysize*smoothing)),10)
-            else:
-                score=float('-inf')
-        elif ((ord(mystring[i])>=65 and ord(mystring[i])<=90)):
-            if((traininglist[ord(mystring[i]) - 39]+smoothing) >0 and (totalcountlist(traininglist)+vocabularysize * smoothing)>0 ):
-                score += math.log(((traininglist[ord(mystring[i]) - 39]+smoothing) / (totalcountlist(traininglist)+vocabularysize * smoothing)), 10)
-            else:
-                score=float('-inf')
-
-    score+=math.log((classsize/totaldocs),10)
-    return score
-
-def calculatescorebigramcase(mystring,smoothing,classsize,vocabularysize,totaldocs,traininglist):
-    score=0
-    for i in range(len(mystring)-1):
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and (ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122)):
-            if((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]+smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)>0 ):
-                score+=math.log(((traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]+smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-        if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90):
-            if( (traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-39]))+smoothing*vocabularysize)>0 ):
-                score+=math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90):
-            if((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39] +smoothing)>0 and  ((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)>0):
-                score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39] +smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-        if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 97 and ord(mystring[i + 1]) <= 122):
-            if((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97] +smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-39]))+smoothing*vocabularysize)>0 ):
-                score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97] +smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-    score+=math.log((classsize/totaldocs),10)
-    return score
-
-def calculatescoretrigramcase(mystring, smoothing, classsize, vocabularysize, totaldocs, traininglist):
-    score = 0
-    for i in range(len(mystring) - 2):
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            if((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 97] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)>0):
-                score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 97] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i + 1]) >= 97 and ord(mystring[i + 1]) <= 122 and ord(mystring[i+2]) >= 65 and ord(mystring[i+2]) <= 90):
-            if((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 39] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)>0):
-                score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            if((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 97] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-39]))+smoothing*vocabularysize)>0 ):
-                score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 97] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-39]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-        if ((ord(mystring[i]) >= 97 and ord(mystring[i]) <= 122) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90 and ord(mystring[i + 2]) >= 65 and ord(mystring[i + 2]) <= 90):
-            if((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 39] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-39]))+smoothing*vocabularysize) >0):
-                score += math.log(((traininglist[ord(mystring[i]) - 97][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-97][ord(mystring[i+1])-39]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-        if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i+1]) >= 97 and ord(mystring[i+1]) <= 122 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            if((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 97] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-97]))+smoothing*vocabularysize) >0):
-                score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 97] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-        if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 97 and ord(mystring[i + 1]) <= 122 and ord(mystring[i+2]) >= 65 and ord(mystring[i+2]) <= 90):
-            if((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 39] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-97]))+smoothing*vocabularysize)>0):
-                score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 97][ord(mystring[i + 2]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-97]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-        if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90 and ord(mystring[i+2]) >= 97 and ord(mystring[i+2]) <= 122):
-            if((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 97] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-39]))+smoothing*vocabularysize)>0):
-                score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 97] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-39]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-        if ((ord(mystring[i]) >= 65 and ord(mystring[i]) <= 90) and ord(mystring[i + 1]) >= 65 and ord(mystring[i + 1]) <= 90 and ord(mystring[i + 2]) >= 65 and ord(mystring[i + 2]) <= 90):
-            if((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 39] + smoothing)>0 and ((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-39]))+smoothing*vocabularysize)>0):
-                score += math.log(((traininglist[ord(mystring[i]) - 39][ord(mystring[i + 1]) - 39][ord(mystring[i + 2]) - 39] + smoothing)/((totalcountlist(traininglist[ord(mystring[i])-39][ord(mystring[i+1])-39]))+smoothing*vocabularysize)),10)
-            else:
-                score=float('-inf')
-    score+=math.log((classsize/totaldocs),10)
-    return score
-
-def calculatescoreisalpha(mystring, smoothing, classsize, vocabularysize, totaldocs, traininglist):
-    score = 0
-    for i in range(len(mystring)):
-        if(mystring[i].isalpha() and (mystring[i] in traininglist)):
-            if((float(traininglist[mystring[i]]) + smoothing)>0 and (countkeys(traininglist) + (vocabularysize+1) * smoothing)>0):
-                score += math.log(((float(traininglist[mystring[i]]) + smoothing) / (countkeys(traininglist) + (vocabularysize+1) * smoothing)), 10)
-            else:
-                score=float('-inf')
-
-        elif(mystring[i].isalpha() and not(mystring[i] in traininglist)):
-            if((smoothing)>0 and (countkeys(traininglist) + (vocabularysize+1) * smoothing)>0):
-                score+=math.log(((smoothing) / (countkeys(traininglist) + (vocabularysize+1) * smoothing)), 10)
-            else:
-                score=float('-inf')
-
-
-    score+=math.log((classsize/totaldocs),10)
-    return score
 
 def getingfirstletofbigram(mydic):
     mylist=[]
@@ -908,49 +457,25 @@ def getingsecondletofbigram(mydic):
 
 
 
-
-
-def calculatescoreisalphabigram(mystring, smoothing, classsize, vocabularysize, totaldocs, traininglist):
-    score = 0
-    myfirst=getingfirstletofbigram(traininglist)
-    for i in range(len(mystring)-1):
-        bigram = mystring[i] + mystring[i + 1]
-        if ((mystring[i].isalpha())and (mystring[i+1].isalpha())and (bigram in traininglist)):
-            if((float(traininglist[bigram]) + smoothing) >0 and (countlefttotalbigram(traininglist,mystring[i]) + (vocabularysize+1) * smoothing)>0 ):
-                score += math.log((float(traininglist[bigram]) + smoothing) / (countlefttotalbigram(traininglist,mystring[i]) + (vocabularysize+1) * smoothing),10)
-            else:
-                score=float('-inf')
-        elif  ((mystring[i].isalpha()) and (mystring[i+1].isalpha()) and (not (bigram in traininglist)) and (mystring[i] in myfirst)):
-            if((smoothing)>0 and (countlefttotalbigram(traininglist, mystring[i]) + (vocabularysize + 1) * smoothing)>0 ):
-                score += math.log((smoothing) / (countlefttotalbigram(traininglist, mystring[i]) + (vocabularysize + 1) * smoothing), 10)
-            else:
-                score=float('-inf')
-        elif  ((mystring[i].isalpha() )  and  (mystring[i+1].isalpha()) and   (not (mystring[i] in myfirst))):
-            if((smoothing)>0 and ((vocabularysize + 1) * smoothing)>0):
-                score += math.log( (smoothing) / ((vocabularysize + 1) * smoothing), 10)
-            else:
-                score=float('-inf')
-    score += math.log(classsize / totaldocs, 10)
-    return score
-
-
 def calculatescoreisalphatrigram(mystring, smoothing, classsize, vocabularysize, totaldocs, traininglist,bigramlist):
     score = 0
+
+
     for i in range(len(mystring)-2):
         trigram=mystring[i] + mystring[i + 1]+mystring[i+2]
         bigram=mystring[i] + mystring[i + 1]
-        if ((mystring[i].isalpha()) and (mystring[i + 1].isalpha()) and (mystring[i + 2].isalpha() ) and (trigram in traininglist)):
+        if (((mystring[i].isalpha()) or mystring[i]==" ") and ((mystring[i + 1].isalpha()) or mystring[i+1]==" ") and ((mystring[i + 2].isalpha() or mystring[i+2]==" ") )and (trigram in traininglist)):
             if((float(traininglist[trigram]) + smoothing) >0 and (counttrigramtotal12(traininglist,mystring[i],mystring[i+1]) + (vocabularysize + 1) * smoothing)>0):
 
                 score += math.log(((float(traininglist[trigram]) + smoothing) / (counttrigramtotal12(traininglist,mystring[i],mystring[i+1]) + (vocabularysize + 1) * smoothing)), 10)
             else:
                 score=float('-inf')
-        elif ((mystring[i].isalpha() )and  (mystring[i + 1].isalpha()) and  (mystring[i + 2].isalpha()) and  (not (trigram in traininglist)) and (bigram in bigramlist) ):
+        elif (((mystring[i].isalpha() ) or mystring[i]==" ")and  ((mystring[i + 1].isalpha()) or mystring[i+1]==" ") and ((mystring[i + 2].isalpha()) or mystring[i+2]==" ") and  (not (trigram in traininglist)) and (bigram in bigramlist) ):
             if((smoothing)>0 and (counttrigramtotal12(traininglist, mystring[i], mystring[i + 1]) + (vocabularysize + 1) * smoothing)>0 ):
                 score += math.log(((smoothing) / (counttrigramtotal12(traininglist, mystring[i], mystring[i + 1]) + (vocabularysize + 1) * smoothing)), 10)
             else:
                 score=float('-inf')
-        elif ((mystring[i].isalpha()) and  (mystring[i + 1].isalpha()) and  (mystring[i + 2].isalpha())  and (not (bigram in bigramlist) )):
+        elif ((mystring[i].isalpha() or mystring[i]==" ") and  ((mystring[i + 1].isalpha()) or mystring[i+1]==" ") and  ((mystring[i + 2].isalpha()) or mystring[i+2]==" ")  and (not (bigram in bigramlist) )):
             if((smoothing)>0 and ( (vocabularysize + 1) * smoothing)>0):
 
                 score += math.log((smoothing) / ( (vocabularysize + 1) * smoothing), 10)
@@ -971,21 +496,23 @@ def count4gramtotal123(dic,one,two,three):
 
 def calculatescoreisalpha4gram(mystring, smoothing, classsize, vocabularysize, totaldocs, traininglist,trigramlist):
     score = 0
+
     for i in range(len(mystring)-3):
+
         fourgram=mystring[i] + mystring[i + 1]+mystring[i+2]+mystring[i+3]
         trigram=mystring[i] + mystring[i + 1]+mystring[i+2]
-        if ((mystring[i].isalpha()) and (mystring[i + 1].isalpha()) and (mystring[i + 2].isalpha() ) and(mystring[i+3].isalpha()) and (fourgram in traininglist)):
+        if (((mystring[i].isalpha()) or mystring[i]==" ") and ((mystring[i + 1].isalpha()) or mystring[i+1]==" ") and ((mystring[i + 2].isalpha() ) or mystring[i+2]==" ") and((mystring[i+3].isalpha()) or mystring[i+3]==" ") and (fourgram in traininglist)):
             if((float(traininglist[fourgram]) + smoothing) >0 and (count4gramtotal123(traininglist,mystring[i],mystring[i+1],mystring[i+2]) + (vocabularysize + 1) * smoothing)>0):
 
                 score += math.log(((float(traininglist[fourgram]) + smoothing) / (count4gramtotal123(traininglist,mystring[i],mystring[i+1],mystring[i+2]) + (vocabularysize + 1) * smoothing)), 10)
             else:
                 score=float('-inf')
-        elif ((mystring[i].isalpha() )and  (mystring[i + 1].isalpha()) and  (mystring[i + 2].isalpha()) and(mystring[i+3].isalpha()) and  (not (fourgram in traininglist)) and (trigram in trigramlist) ):
+        elif (((mystring[i].isalpha() ) or mystring[i]==" ")and  ((mystring[i + 1].isalpha()) or mystring[i+1]==" ") and  ((mystring[i + 2].isalpha()) or mystring[i+2]==" ") and((mystring[i+3].isalpha()) or mystring[i+3]==" ") and  (not (fourgram in traininglist)) and (trigram in trigramlist) ):
             if((smoothing)>0 and (count4gramtotal123(traininglist, mystring[i], mystring[i + 1],mystring[i+2]) + (vocabularysize + 1) * smoothing)>0 ):
                 score += math.log(((smoothing) / (count4gramtotal123(traininglist, mystring[i], mystring[i + 1],mystring[i+2]) + (vocabularysize + 1) * smoothing)), 10)
             else:
                 score=float('-inf')
-        elif ((mystring[i].isalpha()) and  (mystring[i + 1].isalpha()) and  (mystring[i + 2].isalpha())  and (mystring[i+3].isalpha()) and (not (trigram in trigramlist) )):
+        elif (((mystring[i].isalpha()) or mystring[i]==" ") and  ((mystring[i + 1].isalpha()) or mystring[i+1]==" ") and  ((mystring[i + 2].isalpha()) or mystring[i+2]==" ")  and ((mystring[i+3].isalpha()) or mystring[i+3]==" ") and (not (trigram in trigramlist) )):
             if((smoothing)>0 and ( (vocabularysize + 1) * smoothing)>0):
 
                 score += math.log((smoothing) / ( (vocabularysize + 1) * smoothing), 10)
@@ -998,19 +525,9 @@ def calculatescoreisalpha4gram(mystring, smoothing, classsize, vocabularysize, t
 
 
 
-def calculatescores(mystring,smoothing,classsize,vocabularysize,totaldocs,traininglist):
-    score=0
-    for i in range(len(mystring)):
-        if(ord(mystring[i])>=97 and ord(mystring[i])<=122):
-            if((traininglist[ord(mystring[i])-97]+smoothing)>0 and (totalcountlist(traininglist)+vocabularysize*smoothing)>0):
-                score+=math.log((traininglist[ord(mystring[i])-97]+smoothing)/(totalcountlist(traininglist)+vocabularysize*smoothing),10)
-            else:
-                score=float('-inf')
-    score+=math.log(classsize/totaldocs,10)
-    return score
 
 def naivebayes(v,n,delta,train,test):
-    nameoftracefile="trace_"+str(v)+"_"+str(n)+"_"+str(delta)+".txt"
+    nameoftracefile="trace_myModel"+str(v)+"_"+str(n)+"_"+str(delta)+".txt"
     confusionmatrix=np.array([[0] * 6] * 6)
     f1 = open(nameoftracefile, "w+", encoding="utf8")
     numcorrectclass=0
@@ -1041,12 +558,12 @@ def naivebayes(v,n,delta,train,test):
     label=''
     label2=''
     scores=[0]*6
-    if (v==0):
-        results=trainv0(train,n)
-    elif(v==1):
+    if (v==1):
         results=trainv1(train,n)
     elif(v==2):
         results=trainv2(train,n)
+    elif(v==3):
+        results=trainv3(train,n)
     tweets=[]
 
 
@@ -1062,57 +579,57 @@ def naivebayes(v,n,delta,train,test):
         index = tweets[i].index(copytweets[i][3])
 
         copystring[i] = tweets[i][index:]
-
-        if(v==0 and n==1):
+        print(i)
+        if(v==1 and n==1):
             scores[0] = calculatescores(copystring[i], delta, results[0], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[6])
             scores[1] = calculatescores(copystring[i], delta, results[1], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7])
             scores[2] = calculatescores(copystring[i], delta, results[2], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8])
             scores[3] = calculatescores(copystring[i], delta, results[3], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[9])
             scores[4] = calculatescores(copystring[i], delta, results[3], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
             scores[5] = calculatescores(copystring[i], delta, results[5], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
-        elif(v==0 and n==2):
+        elif(v==1 and n==2):
             scores[0] = calculatescorebigram(copystring[i], delta, results[0], 26, (results[0]+results[1]+results[2]+ results[3]+ results[4]+ results[5]), results[6])
             scores[1] = calculatescorebigram(copystring[i], delta, results[1], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7])
             scores[2] = calculatescorebigram(copystring[i], delta, results[2], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8])
             scores[3] = calculatescorebigram(copystring[i], delta, results[3], 26, (results[0]+results[1]+results[2]+results[3]+results[4]+results[5]),results[9])
             scores[4] = calculatescorebigram(copystring[i], delta, results[4], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
             scores[5] = calculatescorebigram(copystring[i], delta, results[5], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
-        elif(v==0 and n==3):
+        elif(v==1 and n==3):
             scores[0] = calculatescoretrigram(copystring[i], delta, results[0], 26, (results[0]+results[1]+results[2]+ results[3]+ results[4]+ results[5]), results[6])
             scores[1] = calculatescoretrigram(copystring[i], delta, results[1], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7])
             scores[2] = calculatescoretrigram(copystring[i], delta, results[2], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8])
             scores[3] = calculatescoretrigram(copystring[i], delta, results[3], 26, (results[0]+results[1]+results[2]+results[3]+results[4]+results[5]),results[9])
             scores[4] = calculatescoretrigram(copystring[i], delta, results[4], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
             scores[5] = calculatescoretrigram(copystring[i], delta, results[5], 26, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
-        elif(v==1 and n==1):
+        elif(v==2 and n==1):
             scores[0] = calculatescorescase(copystring[i], delta, results[0], 52, (results[0]+results[1]+results[2]+ results[3]+ results[4]+ results[5]), results[6])
             scores[1] = calculatescorescase(copystring[i], delta, results[1], 52, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7])
             scores[2] = calculatescorescase(copystring[i], delta, results[2], 52, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8])
             scores[3] = calculatescorescase(copystring[i], delta, results[3], 52, (results[0]+results[1]+results[2]+results[3]+results[4]+results[5]),results[9])
             scores[4] = calculatescorescase(copystring[i], delta, results[4], 52, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
             scores[5] = calculatescorescase(copystring[i], delta, results[5], 52, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
-        elif(v==1 and n==2):
+        elif(v==2 and n==2):
             scores[0] = calculatescorebigramcase(copystring[i], delta, results[0], 52, (results[0]+results[1]+results[2]+ results[3]+ results[4]+ results[5]), results[6])
             scores[1] = calculatescorebigramcase(copystring[i], delta, results[1], 52, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7])
             scores[2] = calculatescorebigramcase(copystring[i], delta, results[2], 52, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8])
             scores[3] = calculatescorebigramcase(copystring[i], delta, results[3], 52, (results[0]+results[1]+results[2]+results[3]+results[4]+results[5]),results[9])
             scores[4] = calculatescorebigramcase(copystring[i], delta, results[4], 52, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
             scores[5] = calculatescorebigramcase(copystring[i], delta, results[5], 52, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
-        elif(v==1 and n==3):
+        elif(v==2 and n==3):
             scores[0] = calculatescoretrigramcase(copystring[i], delta, results[0], 52, (results[0]+results[1]+results[2]+ results[3]+ results[4]+ results[5]), results[6])
             scores[1] = calculatescoretrigramcase(copystring[i], delta, results[1], 52, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7])
             scores[2] = calculatescoretrigramcase(copystring[i], delta, results[2], 52, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8])
             scores[3] = calculatescoretrigramcase(copystring[i], delta, results[3], 52, (results[0]+results[1]+results[2]+results[3]+results[4]+results[5]),results[9])
             scores[4] = calculatescoretrigramcase(copystring[i], delta, results[4], 52, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
             scores[5] = calculatescoretrigramcase(copystring[i], delta, results[5], 52, (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
-        elif(v==2 and n==1):
+        elif(v==3 and n==1):
             scores[0] = calculatescoreisalpha(copystring[i], delta, results[0], results[12], (results[0]+  results[1]+  results[2]+  results[3]+  results[4]+  results[5]), results[6])
             scores[1] = calculatescoreisalpha(copystring[i], delta, results[1], results[13], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7])
             scores[2] = calculatescoreisalpha(copystring[i], delta, results[2], results[14], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8])
             scores[3] = calculatescoreisalpha(copystring[i], delta, results[3], results[15], (results[0]+  results[1]+  results[2]+  results[3]+  results[4]+  results[5]), results[9])
             scores[4] = calculatescoreisalpha(copystring[i], delta, results[4], results[16], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
             scores[5] = calculatescoreisalpha(copystring[i], delta, results[5], results[17], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
-        elif(v==2 and n==2):
+        elif(v==3 and n==2):
 
             scores[0] = calculatescoreisalphabigram(copystring[i], delta, results[0], results[12], (results[0] +  results[1] +  results[2] +  results[3]+  results[4] +  results[5]), results[6])
             scores[1] = calculatescoreisalphabigram(copystring[i], delta, results[1], results[13], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7])
@@ -1120,7 +637,7 @@ def naivebayes(v,n,delta,train,test):
             scores[3] = calculatescoreisalphabigram(copystring[i], delta, results[3], results[15], (results[0] +  results[1] +  results[2] +  results[3]+  results[4] +  results[5]), results[9])
             scores[4] = calculatescoreisalphabigram(copystring[i], delta, results[4], results[16], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10])
             scores[5] = calculatescoreisalphabigram(copystring[i], delta, results[5], results[17], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11])
-        elif(v==2 and n==3):
+        elif(v==3 and n==3):
             scores[0] = calculatescoreisalphatrigram(copystring[i], delta, results[0], results[12], (results[0] +  results[1]+  results[2] +  results[3]+  results[4] +  results[5]), results[6],results[18])
             scores[1] = calculatescoreisalphatrigram(copystring[i], delta, results[1], results[13], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7],results[19])
             scores[2] = calculatescoreisalphatrigram(copystring[i], delta, results[2], results[14], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8],results[20])
@@ -1128,7 +645,7 @@ def naivebayes(v,n,delta,train,test):
             scores[4] = calculatescoreisalphatrigram(copystring[i], delta, results[4], results[16], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[10],results[22])
             scores[5] = calculatescoreisalphatrigram(copystring[i], delta, results[5], results[17], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11],results[23])
 
-        elif(v==2 and n==4):
+        elif(v==3 and n==4):
             scores[0] = calculatescoreisalpha4gram(copystring[i], delta, results[0], results[12], (results[0] +  results[1]+  results[2] +  results[3]+  results[4] +  results[5]), results[6],results[18])
             scores[1] = calculatescoreisalpha4gram(copystring[i], delta, results[1], results[13], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[7],results[19])
             scores[2] = calculatescoreisalpha4gram(copystring[i], delta, results[2], results[14], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[8],results[20])
@@ -1137,6 +654,7 @@ def naivebayes(v,n,delta,train,test):
             scores[5] = calculatescoreisalpha4gram(copystring[i], delta, results[5], results[17], (results[0] + results[1] + results[2] + results[3] + results[4] + results[5]), results[11],results[23])
 
         indexm=0
+
         for j in range(6):
             if(scores[j]>scores[indexm]):
                 indexm=j
@@ -1156,6 +674,7 @@ def naivebayes(v,n,delta,train,test):
             label='pt'
         if(label==copytweets[i][2]):
             label2="correct"
+
             numcorrectclass+=1
             if(label=='eu'):
                 correctbasque+=1
@@ -1206,7 +725,6 @@ def naivebayes(v,n,delta,train,test):
 
 
             elif(copytweets[i][2]=='ca'):
-                falsenegativecatalan+=1
                 if (label == "eu"):
                     confusionmatrix[1][0] += 1
                 elif (label == "gl"):
@@ -1217,7 +735,7 @@ def naivebayes(v,n,delta,train,test):
                     confusionmatrix[1][4] += 1
                 elif (label=="pt"):
                     confusionmatrix[1][5] += 1
-
+                falsenegativecatalan+=1
 
             elif(copytweets[i][2]=='gl'):
                 falsenegativegalician+=1
@@ -1233,7 +751,6 @@ def naivebayes(v,n,delta,train,test):
                     confusionmatrix[2][5] += 1
 
             elif(copytweets[i][2]=='es'):
-                falsenegativespanish+=1
                 if (label == "eu"):
                     confusionmatrix[3][0] += 1
                 elif (label == "ca"):
@@ -1244,7 +761,7 @@ def naivebayes(v,n,delta,train,test):
                     confusionmatrix[3][4] += 1
                 elif (label=="pt"):
                     confusionmatrix[3][5] += 1
-
+                falsenegativespanish+=1
             elif(copytweets[i][2]=='en'):
                 falsenegativeenglish+=1
                 if (label == "eu"):
@@ -1419,7 +936,7 @@ def naivebayes(v,n,delta,train,test):
     waveragef1=  (waveragef1) / (testbasque+testcatalan+testgalician+testspanish+testenglish+testportoguse)
 
 
-    nameoffile2="eval_"+str(v)+"_"+str(n)+"_"+str(delta)+".txt"
+    nameoffile2="eval_myModel"+str(v)+"_"+str(n)+"_"+str(delta)+".txt"
     f2 = open(nameoffile2, "w+", encoding="utf8")
     f2.write(str(accuracy)+"\n")
     f2.write(str(precisionbasque)+"  "+str(precisioncatalan)+"  "+str(precisiongalician)+"  "+str(precisionspanish)+"  "+str(precisionenglish)+"  "+str(precisionportoguse)+"\n")
@@ -1430,11 +947,7 @@ def naivebayes(v,n,delta,train,test):
 
 
 
-naivebayes(0,1,0.0,"training-tweets.txt","test-tweets-given.txt")
-naivebayes(1,2,0.5,"training-tweets.txt","test-tweets-given.txt")
-naivebayes(1,3,1.0,"training-tweets.txt","test-tweets-given.txt")
-naivebayes(2,2,0.3,"training-tweets.txt","test-tweets-given.txt")
-print("c")
+naivebayes(3,3,0.4,"training-tweets.txt","test-tweets-given.txt")
 
 
 
